@@ -301,3 +301,7 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+*.sln
+ProjAED/ProjAED.vcxproj
+*.filters
+ProjAED/ReadMe.txt
