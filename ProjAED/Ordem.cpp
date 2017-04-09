@@ -1,4 +1,5 @@
 #pragma once
+#include <random>
 
 namespace ED
 {
@@ -6,9 +7,13 @@ namespace ED
 	{
 		static void heapify(Tipo *vet, Size pai, Size heapsize);
 	public:
-		static void QuickSort(Tipo* vet, Size length);
+		static void InsertSort(Tipo* vet, Size length);
 		static void HeapSort(Tipo *vet, Size length);
 		static void BubbleSort(Tipo *vet, Size length);
+		static void QuickSort(Tipo *vet, Size l, Size r);
+		static void QuickSortCentral(Tipo *vet, Size l, Size r);
+		static void QuickSortRandom(Tipo *vet, Size l, Size r);
+
 	};
 
 
@@ -35,7 +40,7 @@ namespace ED
 		}
 	}
 
-	template<typename Tipo, typename Size> inline void Ordem<Tipo, Size>::QuickSort(Tipo * vet, Size length)
+	template<typename Tipo, typename Size> inline void Ordem<Tipo, Size>::InsertSort(Tipo * vet, Size length)
 	{
 		Tipo aux;
 		Size i = 0, j = 0;
@@ -79,5 +84,75 @@ namespace ED
 				}
 			}
 		}
+	}
+	
+	template<typename Tipo, typename Size> inline void Ordem<Tipo, Size>::QuickSort(Tipo * vet, Size l, Size r)
+	{
+		if (r <= l) return;
+
+		Size i = l, j = r;
+		Tipo pivo = vet[l];
+		while (true) {
+			while ((j > i) && (vet[j] > pivo)) j--;
+			if (i == j) break;
+			vet[i] = vet[j]; i++;
+			while ((i < j) && (vet[i] < pivo)) i++;
+			if (i == j) break;
+			vet[j] = vet[i]; j--;
+		}
+		vet[i] = pivo;
+
+		QuickSort(vet, l, i - 1); // ordena a primeira partição
+		QuickSort(vet, i + 1, r); // ordena a segunda partição
+	}
+	
+	template<typename Tipo, typename Size> inline void Ordem<Tipo, Size>::QuickSortCentral(Tipo * vet, Size l, Size r) {
+		if (r <= l) return;
+		Size i, j;
+
+		i = (l + r) / 2; // Troca a posição l com a posição central
+		Tipo pivo = vet[i];
+		vet[i] = vet[l];
+		vet[l] = pivo;
+
+		i = l;
+		j = r;
+
+		while (true) {
+			while ((j > i) && (vet[j] > pivo)) j--;
+			if (i == j) break;
+			vet[i] = vet[j]; i++;
+			while ((i < j) && (vet[i] < pivo)) i++;
+			if (i == j) break;
+			vet[j] = vet[i]; j--;
+		}
+		vet[i] = pivo;
+		QuickSortCentral(vet, l, i - 1);
+		QuickSortCentral(vet, i + 1, r);
+	}
+	
+	template<typename Tipo, typename Size> inline void Ordem<Tipo, Size>::QuickSortRandom(Tipo * vet, Size l, Size r) {
+		if (r <= l) return;
+		Size i, j;
+		// Troca a posição l com uma posição aleatória entre l+1 e r
+		i = rand() % (r - l) + l + 1;
+		Tipo pivo = vet[i];
+		vet[i] = vet[l];
+		vet[l] = pivo;
+
+		i = l;
+		j = r;
+
+		while (true) {
+			while ((j > i) && (vet[j] > pivo)) j--;
+			if (i == j) break;
+			vet[i] = vet[j]; i++;
+			while ((i < j) && (vet[i] < pivo)) i++;
+			if (i == j) break;
+			vet[j] = vet[i]; j--;
+		}
+		vet[i] = pivo;
+		QuickSortRandom(vet, l, i - 1);
+		QuickSortRandom(vet, i + 1, r);
 	}
 }

@@ -17,13 +17,13 @@ typedef unsigned long int uli;
 ui seeed[] = { 4, 81, 151, 1601, 2307, 4207 };
 //uli sizee[] = { 1000,30000,90000,270000,810000,243000,7290000,21870000,65610000 };
 uli sizee[] = { 10, 30, 90, 270, 810, 2430, 729, 2187, 6561 };
-string tipe_name[] = { "heapsort", "quicksort", "Mergesort", "S c++", "Qs C", "BubbleSort" };
+//uli sizee[] = { 5, 10, 50, 100, 500, 1000, 5000, 10000, 50000 };
+//uli sizee[] = { 50, 100, 150, 200, 250, 300, 350, 400, 450, 500 };
+string tipe_name[] = { "HeapSort", "QuickSort", "MergeSort", "S c++", "Qs C", "InsertSort", "BubbleSort", "QuickSortCentral", "QuickSortRandom" };
 
 
 int main()
 {
-	cout << sizeof(tipe_name) << ' ' << sizeof(tipe_name[0]) << ' ' << sizeof(tipe_name)/sizeof(tipe_name[0]) << endl;
-
 #ifdef DEBUG
 	uniform_int_distribution<int32_t> sqn(0, 50);
 	mt19937 rad;
@@ -69,7 +69,7 @@ int main()
 					ED::Ordem<int, li>::HeapSort(V, sizee[j]);
 					break;
 				case 1: //QuickSort
-					ED::Ordem<int, uli>::QuickSort(V, sizee[j]);
+					ED::Ordem<int, li>::QuickSort(V, 0, sizee[j]);
 					break;
 				case 2:	//MergeSort
 					//cout << 'c';
@@ -80,8 +80,17 @@ int main()
 				case 4: //Qs C
 						//cout << 'e';
 					break;
-				case 5: //BubbleSort
+				case 5: //InsertSort
+					ED::Ordem<int, uli>::InsertSort(V, sizee[j]);
+					break;
+				case 6: //BubbleSort
 					ED::Ordem<int, uli>::BubbleSort(V, sizee[j]);
+					break;
+				case 7: //QuickSortRandom
+					ED::Ordem<int, li>::QuickSortCentral(V, 0, sizee[j]);
+					break;
+				case 8: //QuickSortCentral
+					ED::Ordem<int, li>::QuickSortRandom(V, 0, sizee[j]);
 					break;
 				default:
 					cout << '?';
