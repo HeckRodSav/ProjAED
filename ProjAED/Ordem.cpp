@@ -13,6 +13,7 @@ namespace ED
 		static void QuickSort(Tipo *vet, Size l, Size r);
 		static void QuickSortCentral(Tipo *vet, Size l, Size r);
 		static void QuickSortRandom(Tipo *vet, Size l, Size r);
+		static void SelectSort(Tipo *vet, Size n);
 
 	};
 
@@ -106,7 +107,8 @@ namespace ED
 		QuickSort(vet, i + 1, r); // ordena a segunda partição
 	}
 	
-	template<typename Tipo, typename Size> inline void Ordem<Tipo, Size>::QuickSortCentral(Tipo * vet, Size l, Size r) {
+	template<typename Tipo, typename Size> inline void Ordem<Tipo, Size>::QuickSortCentral(Tipo * vet, Size l, Size r)
+	{
 		if (r <= l) return;
 		Size i, j;
 
@@ -131,7 +133,8 @@ namespace ED
 		QuickSortCentral(vet, i + 1, r);
 	}
 	
-	template<typename Tipo, typename Size> inline void Ordem<Tipo, Size>::QuickSortRandom(Tipo * vet, Size l, Size r) {
+	template<typename Tipo, typename Size> inline void Ordem<Tipo, Size>::QuickSortRandom(Tipo * vet, Size l, Size r)
+	{
 		if (r <= l) return;
 		Size i, j;
 		// Troca a posição l com uma posição aleatória entre l+1 e r
@@ -154,5 +157,19 @@ namespace ED
 		vet[i] = pivo;
 		QuickSortRandom(vet, l, i - 1);
 		QuickSortRandom(vet, i + 1, r);
+	}
+	
+	template<typename Tipo, typename Size> inline void Ordem<Tipo, Size>::SelectSort(Tipo * vet, Size n)
+	{
+		Tipo aux;
+		Size imenor, i, j;
+		for (i = 0; i < n - 1; i++) {
+			imenor = i;
+			for (j = i + 1; j < n; j++)
+				if (vet[j] < vet[imenor]) imenor = j;
+			aux = vet[i];
+			vet[i] = vet[imenor];
+			vet[imenor] = aux;
+		}
 	}
 }

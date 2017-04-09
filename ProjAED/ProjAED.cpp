@@ -19,7 +19,7 @@ ui seeed[] = { 4, 81, 151, 1601, 2307, 4207 };
 uli sizee[] = { 10, 30, 90, 270, 810, 2430, 729, 2187, 6561 };
 //uli sizee[] = { 5, 10, 50, 100, 500, 1000, 5000, 10000, 50000 };
 //uli sizee[] = { 50, 100, 150, 200, 250, 300, 350, 400, 450, 500 };
-string tipe_name[] = { "HeapSort", "QuickSort", "MergeSort", "S c++", "Qs C", "InsertSort", "BubbleSort", "QuickSortCentral", "QuickSortRandom" };
+string tipe_name[] = { "HeapSort", "QuickSort", "MergeSort", "S c++", "Qs C", "InsertSort", "BubbleSort", "QuickSortCentral", "QuickSortRandom", "SelectSort" };
 
 
 int main()
@@ -91,6 +91,9 @@ int main()
 					break;
 				case 8: //QuickSortCentral
 					ED::Ordem<int, li>::QuickSortRandom(V, 0, sizee[j]);
+					break;
+				case 9: //SelectSort
+					ED::Ordem<int, li>::SelectSort(V, sizee[j]);
 					break;
 				default:
 					cout << '?';
