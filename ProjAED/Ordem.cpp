@@ -6,9 +6,12 @@ namespace ED
 	template <typename Tipo, typename Size> class Ordem
 	{
 		static void heapify(Tipo *vet, Size pai, Size heapsize);
+		static void merge(Tipo *vet, Tipo *aux, Size esq, Size meio, Size dir);
+		static void m_sort(Tipo *vet, Tipo *aux, Size esq, Size dir);
 	public:
 		static void InsertSort(Tipo* vet, Size length);
 		static void HeapSort(Tipo *vet, Size length);
+		static void MergeSort(Tipo *vet, Size length);
 		static void BubbleSort(Tipo *vet, Size length);
 		static void QuickSort(Tipo *vet, Size l, Size r);
 		static void QuickSortCentral(Tipo *vet, Size l, Size r);
@@ -41,6 +44,28 @@ namespace ED
 		}
 	}
 
+	template<typename Tipo, typename Size> inline void Ordem<Tipo, Size>::merge(Tipo * vet, Tipo * aux, Size esq, Size meio, Size dir) {
+		Size i, j, k;
+		i = k = esq; j = meio + 1;
+		while ((i <= meio) && (j <= dir)) {
+			if (vet[i] < vet[j]) aux[k++] = vet[i++];
+			else aux[k++] = vet[j++];
+		}
+		while (i <= meio) aux[k++] = vet[i++];
+		while (j <= dir) aux[k++] = vet[j++];
+		while (esq <= dir) vet[esq] = aux[esq++];
+	}
+
+	template<typename Tipo, typename Size> inline void Ordem<Tipo, Size>::m_sort(Tipo * vet, Tipo * aux, Size esq, Size dir)
+	{
+		if (dir <= esq) return;
+		Size meio = (dir + esq) >> 1;
+		m_sort(vet, aux, esq, meio); //First Call
+		m_sort(vet, aux, meio + 1, dir); // Second Call
+		if (vet[meio] <= vet[meio + 1]) return;
+		merge(vet, aux, esq, meio, dir); // Merge 
+	}
+
 	template<typename Tipo, typename Size> inline void Ordem<Tipo, Size>::InsertSort(Tipo * vet, Size length)
 	{
 		Tipo aux;
@@ -69,6 +94,13 @@ namespace ED
 			vet[i] = aux;
 			heapify(vet, 0, i);
 		}
+	}
+
+	template<typename Tipo, typename Size> inline void Ordem<Tipo, Size>::MergeSort(Tipo * vet, Size length)
+	{
+		Tipo *aux = new Tipo[length]; // Alocação do vetor auxiliar
+		m_sort(vet, aux, 0, length - 1);
+		delete aux;
 	}
 	
 	template<typename Tipo, typename Size> inline void Ordem<Tipo, Size>::BubbleSort(Tipo * vet, Size length)

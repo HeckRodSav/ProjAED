@@ -72,7 +72,7 @@ int main()
 					ED::Ordem<int, li>::QuickSort(V, 0, sizee[j]);
 					break;
 				case 2:	//MergeSort
-					//cout << 'c';
+					ED::Ordem<int, uli>::MergeSort(V, sizee[j]);
 					break;
 				case 3:	//S C++
 					//cout << 'd';
@@ -93,7 +93,7 @@ int main()
 					ED::Ordem<int, li>::QuickSortRandom(V, 0, sizee[j]);
 					break;
 				case 9: //SelectSort
-					ED::Ordem<int, li>::SelectSort(V, sizee[j]);
+					ED::Ordem<int, uli>::SelectSort(V, sizee[j]);
 					break;
 				default:
 					cout << '?';
