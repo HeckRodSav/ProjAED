@@ -17,22 +17,19 @@ typedef unsigned long int uli;
 ui seeed[] = { 4, 81, 151, 1601, 2307, 4207 };
 //uli sizee[] = { 1000,30000,90000,270000,810000,243000,7290000,21870000,65610000 };
 uli sizee[] = { 10, 30, 90, 270, 810, 2430, 729, 2187, 6561 };
-string tipe_name[] = { "heapsort", "quicksort", "Mergesort", "S c++", "Qs C" };
-ui time_name_size = 5;
+string tipe_name[] = { "heapsort", "quicksort", "Mergesort", "S c++", "Qs C", "BubbleSort" };
+
 
 int main()
 {
-	double start = 0, end = 0;
-	int *V = new int[sizee[8]];
-
-	uniform_int_distribution<int32_t> seq;
-	mt19937 rnd;
+	cout << sizeof(tipe_name) << ' ' << sizeof(tipe_name[0]) << ' ' << sizeof(tipe_name)/sizeof(tipe_name[0]) << endl;
 
 #ifdef DEBUG
-	uniform_int_distribution<int32_t> sqn(0,50);
+	uniform_int_distribution<int32_t> sqn(0, 50);
+	mt19937 rad;
 	rnd.seed(clock());
 	int teste[10];
-	for (int i = 0; i < 10; i++) teste[i] = sqn(rnd);
+	for (int i = 0; i < 10; i++) teste[i] = sqn(rad);
 	for (int i = 0; i < 10; i++) cout << teste[i] << ' ';
 	cout << endl;
 
@@ -42,8 +39,13 @@ int main()
 	cout << endl;
 #endif
 
+	double start = 0, end = 0;
+	int *V = new int[sizee[8]];
 
-	for (ui i = 0; i < time_name_size; i++) //Select algorithm
+	uniform_int_distribution<int32_t> seq;
+	mt19937 rnd;
+
+	for (ui i = 0; i < sizeof(tipe_name) / sizeof(tipe_name[0]); i++) //Select algorithm
 	{
 		cout << setfill(' ') << setw(15) << left << tipe_name[i] << "  "; //Show name
 		for (ui k = 0; k < sizeof(seeed) / sizeof(seeed[0]); k++) cout << seeed[k] << '\t'; //Show index
@@ -76,7 +78,13 @@ int main()
 					//cout << 'd';
 					break;
 				case 4: //Qs C
-					//cout << 'e';
+						//cout << 'e';
+					break;
+				case 5: //BubbleSort
+					ED::Ordem<int, uli>::BubbleSort(V, sizee[j]);
+					break;
+				default:
+					cout << '?';
 					break;
 				}
 				end = clock();

@@ -8,6 +8,7 @@ namespace ED
 	public:
 		static void QuickSort(Tipo* vet, Size length);
 		static void HeapSort(Tipo *vet, Size length);
+		static void BubbleSort(Tipo *vet, Size length);
 	};
 
 
@@ -61,6 +62,22 @@ namespace ED
 			vet[0] = vet[i];
 			vet[i] = aux;
 			heapify(vet, 0, i);
+		}
+	}
+	
+	template<typename Tipo, typename Size> inline void Ordem<Tipo, Size>::BubbleSort(Tipo * vet, Size length)
+	{
+		for (Size i = length - 1; i > 0; i--)
+		{
+			for (Size j = 0; j < i; j++)
+			{
+				if (vet[j] > vet[j + 1])
+				{
+					Tipo a = vet[j];
+					vet[j] = vet[j + 1];
+					vet[j + 1] = a;
+				}
+			}
 		}
 	}
 }
