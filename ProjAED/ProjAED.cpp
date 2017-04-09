@@ -6,8 +6,11 @@
 #include <string>
 #include "Ordem.cpp"
 
+//#define DEBUG
+
 using namespace std;
 
+typedef long int li;
 typedef unsigned int ui;
 typedef unsigned long int uli;
 
@@ -25,6 +28,21 @@ int main()
 	uniform_int_distribution<int32_t> seq;
 	mt19937 rnd;
 
+#ifdef DEBUG
+	uniform_int_distribution<int32_t> sqn(0,50);
+	rnd.seed(clock());
+	int teste[10];
+	for (int i = 0; i < 10; i++) teste[i] = sqn(rnd);
+	for (int i = 0; i < 10; i++) cout << teste[i] << ' ';
+	cout << endl;
+
+	ED::Ordem<int, int>::HeapSort(teste, 10);
+
+	for (int i = 0; i < 10; i++) cout << teste[i] << ' ';
+	cout << endl;
+#endif
+
+
 	for (ui i = 0; i < time_name_size; i++) //Select algorithm
 	{
 		cout << setfill(' ') << setw(15) << left << tipe_name[i] << "  "; //Show name
@@ -33,7 +51,7 @@ int main()
 
 		for (ui j = 0; j < sizeof(sizee) / sizeof(sizee[0]); j++) //Select size of vector
 		{
-			for (uli l = 0; l < sizee[j]; l++) V[l] = 0; //Clean the vector
+			for (uli l = 0; l < sizee[j]; l++) V[l] = 0; //Clean the vector in the used space
 
 			cout << "size: " << setfill(' ') << setw(9) << left << sizee[j] << ": "; //Show size
 
@@ -46,10 +64,10 @@ int main()
 				switch (i)
 				{
 				case 0:	//HeapSort
-					//cout << 'a';
+					ED::Ordem<int, li>::HeapSort(V, sizee[j]);
 					break;
 				case 1: //QuickSort
-					ED::Ordem<int>::QuickSort(V, sizee[j]);
+					ED::Ordem<int, uli>::QuickSort(V, sizee[j]);
 					break;
 				case 2:	//MergeSort
 					//cout << 'c';
