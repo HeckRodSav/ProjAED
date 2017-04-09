@@ -17,6 +17,7 @@ typedef unsigned int ui;
 
 int main()
 {
+	double start = 0, end = 0;
 
 	for (ui i = 0; i < time_name_size; i++) //Select algorithm
 	{
@@ -31,18 +32,33 @@ int main()
 			for (ui k = 0; k < sizeof(seeed) / sizeof(seeed[0]); k++) //Select current seed
 			{
 
-				/*
-				...
-				...
-				...
-				*/
-
+				start = clock();
+				switch (i)
+				{
+				case 0:
+					//cout << 'a';
+					break;
+				case 1:
+					//cout << 'b';
+					break;
+				case 2:
+					//cout << 'c';
+					break;
+				case 3:
+					//cout << 'd';
+					break;
+				case 4:
+					//cout << 'e';
+					break;
+				}
+				end = clock();
+				cout << 1000.0 * (end - start) / (CLOCKS_PER_SEC) << '\t';
 			}
 			cout << endl;
 
 		}
 		cout << endl; //Break line after a algorithm
 	}
-    return 0;
+	return 0;
 }
 
