@@ -13,10 +13,11 @@ namespace ED
 		static void HeapSort(Tipo *vet, Size length);
 		static void MergeSort(Tipo *vet, Size length);
 		static void BubbleSort(Tipo *vet, Size length);
-		static void QuickSort(Tipo *vet, Size l, Size r);
-		static void QuickSortCentral(Tipo *vet, Size l, Size r);
-		static void QuickSortRandom(Tipo *vet, Size l, Size r);
+		static void QuickSort(Tipo *vet, Size start, Size end);
+		static void QuickSortCentral(Tipo *vet, Size start, Size end);
+		static void QuickSortRandom(Tipo *vet, Size start, Size end);
 		static void SelectSort(Tipo *vet, Size n);
+		static void BeadSort(Tipo * vet, Size Length, Size Max);
 
 	};
 
@@ -102,7 +103,7 @@ namespace ED
 		m_sort(vet, aux, 0, length - 1);
 		delete aux;
 	}
-	
+
 	template<typename Tipo, typename Size> inline void Ordem<Tipo, Size>::BubbleSort(Tipo * vet, Size length)
 	{
 		for (Size i = length - 1; i > 0; i--)
@@ -118,13 +119,13 @@ namespace ED
 			}
 		}
 	}
-	
-	template<typename Tipo, typename Size> inline void Ordem<Tipo, Size>::QuickSort(Tipo * vet, Size l, Size r)
-	{
-		if (r <= l) return;
 
-		Size i = l, j = r;
-		Tipo pivo = vet[l];
+	template<typename Tipo, typename Size> inline void Ordem<Tipo, Size>::QuickSort(Tipo * vet, Size start, Size end)
+	{
+		if (end <= start) return;
+
+		Size i = start, j = end;
+		Tipo pivo = vet[start];
 		while (true) {
 			while ((j > i) && (vet[j] > pivo)) j--;
 			if (i == j) break;
@@ -135,22 +136,22 @@ namespace ED
 		}
 		vet[i] = pivo;
 
-		QuickSort(vet, l, i - 1); // ordena a primeira partição
-		QuickSort(vet, i + 1, r); // ordena a segunda partição
+		QuickSort(vet, start, i - 1);
+		QuickSort(vet, i + 1, end);
 	}
-	
-	template<typename Tipo, typename Size> inline void Ordem<Tipo, Size>::QuickSortCentral(Tipo * vet, Size l, Size r)
+
+	template<typename Tipo, typename Size> inline void Ordem<Tipo, Size>::QuickSortCentral(Tipo * vet, Size start, Size end)
 	{
-		if (r <= l) return;
+		if (end <= start) return;
 		Size i, j;
 
-		i = (l + r) / 2; // Troca a posição l com a posição central
+		i = (start + end) / 2;
 		Tipo pivo = vet[i];
-		vet[i] = vet[l];
-		vet[l] = pivo;
+		vet[i] = vet[start];
+		vet[start] = pivo;
 
-		i = l;
-		j = r;
+		i = start;
+		j = end;
 
 		while (true) {
 			while ((j > i) && (vet[j] > pivo)) j--;
@@ -161,22 +162,21 @@ namespace ED
 			vet[j] = vet[i]; j--;
 		}
 		vet[i] = pivo;
-		QuickSortCentral(vet, l, i - 1);
-		QuickSortCentral(vet, i + 1, r);
+		QuickSortCentral(vet, start, i - 1);
+		QuickSortCentral(vet, i + 1, end);
 	}
-	
-	template<typename Tipo, typename Size> inline void Ordem<Tipo, Size>::QuickSortRandom(Tipo * vet, Size l, Size r)
+
+	template<typename Tipo, typename Size> inline void Ordem<Tipo, Size>::QuickSortRandom(Tipo * vet, Size start, Size end)
 	{
-		if (r <= l) return;
+		if (end <= start) return;
 		Size i, j;
-		// Troca a posição l com uma posição aleatória entre l+1 e r
-		i = rand() % (r - l) + l + 1;
+		i = rand() % (end - start) + start + 1;
 		Tipo pivo = vet[i];
-		vet[i] = vet[l];
-		vet[l] = pivo;
+		vet[i] = vet[start];
+		vet[start] = pivo;
 
-		i = l;
-		j = r;
+		i = start;
+		j = end;
 
 		while (true) {
 			while ((j > i) && (vet[j] > pivo)) j--;
@@ -187,10 +187,10 @@ namespace ED
 			vet[j] = vet[i]; j--;
 		}
 		vet[i] = pivo;
-		QuickSortRandom(vet, l, i - 1);
-		QuickSortRandom(vet, i + 1, r);
+		QuickSortRandom(vet, start, i - 1);
+		QuickSortRandom(vet, i + 1, end);
 	}
-	
+
 	template<typename Tipo, typename Size> inline void Ordem<Tipo, Size>::SelectSort(Tipo * vet, Size n)
 	{
 		Tipo aux;
@@ -203,5 +203,27 @@ namespace ED
 			vet[i] = vet[imenor];
 			vet[imenor] = aux;
 		}
+	}
+
+	template<typename Tipo, typename Size> inline void Ordem<Tipo, Size>::BeadSort(Tipo * vet, Size Length, Size Max)
+	{
+		// initialize
+		Tipo *level_count = new Tipo[Length + 1];
+		Tipo *rod_count = new Tipo[Max + 1];
+		for (Size i = 1; i <= Length; i++) level_count[i] = 0;
+		for (Tipo i = 1; i <= Max; i++) rod_count[i] = 0;
+		// sort
+		for (Size i = 0; i < Length; i++)
+		{
+			for (Tipo j = 1; j <= vet[i]; j++) {
+				++level_count[++rod_count[j]];
+			}
+		}
+
+		//for (int i = 0; i <= Length; i++) cout << level_count[i] << ' '; cout << endl;
+
+		for (Size i = 0; i < Length; i++) vet[i] = level_count[Length - i];
+		delete level_count;
+		delete rod_count;
 	}
 }
