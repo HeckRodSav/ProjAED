@@ -62,7 +62,7 @@ int main()
 	cout << endl;
 
 	//ED::Ordem<int, int>::BeadSort(teste, 10);
-	ED::Ordem<int, int>::BeadSort(teste, sizeofV(teste), 500);
+	ED::Ordem<int, int>::qSort(teste, sizeofV(teste));
 
 
 	for (ui i = 0; i < 50; i++) cout << teste[i] << ' ';

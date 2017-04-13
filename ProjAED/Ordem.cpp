@@ -1,5 +1,5 @@
 #pragma once
-#include <random>
+#include <cstdlib>
 
 namespace ED
 {
@@ -17,7 +17,8 @@ namespace ED
 		static void QuickSortCentral(Tipo *vet, Size start, Size end);
 		static void QuickSortRandom(Tipo *vet, Size start, Size end);
 		static void SelectSort(Tipo *vet, Size n);
-		static void BeadSort(Tipo * vet, Size Length, Size Max);
+		static void BeadSort(Tipo * vet, Size length, Size Max);
+		static void qSort(Tipo * vet, Size Length);
 
 	};
 
@@ -205,25 +206,30 @@ namespace ED
 		}
 	}
 
-	template<typename Tipo, typename Size> inline void Ordem<Tipo, Size>::BeadSort(Tipo * vet, Size Length, Size Max)
+	template<typename Tipo, typename Size> inline void Ordem<Tipo, Size>::BeadSort(Tipo * vet, Size length, Size Max)
 	{
 		// initialize
-		Tipo *level_count = new Tipo[Length + 1];
+		Tipo *level_count = new Tipo[length + 1];
 		Tipo *rod_count = new Tipo[Max + 1];
-		for (Size i = 1; i <= Length; i++) level_count[i] = 0;
+		for (Size i = 1; i <= length; i++) level_count[i] = 0;
 		for (Tipo i = 1; i <= Max; i++) rod_count[i] = 0;
 		// sort
-		for (Size i = 0; i < Length; i++)
+		for (Size i = 0; i < length; i++)
 		{
 			for (Tipo j = 1; j <= vet[i]; j++) {
 				++level_count[++rod_count[j]];
 			}
 		}
 
-		//for (int i = 0; i <= Length; i++) cout << level_count[i] << ' '; cout << endl;
+		//for (int i = 0; i <= length; i++) cout << level_count[i] << ' '; cout << endl;
 
-		for (Size i = 0; i < Length; i++) vet[i] = level_count[Length - i];
+		for (Size i = 0; i < length; i++) vet[i] = level_count[length - i];
 		delete level_count;
 		delete rod_count;
+	}
+
+	template<typename Tipo, typename Size> inline void Ordem<Tipo, Size>::qSort(Tipo * vet, Size length)
+	{
+		qsort(vet, length, sizeof(vet[0]), [](const void *A, const void *B) {return *(Tipo*)A > *(Tipo*)B ? 1 : *(Tipo*)A < *(Tipo*)B ? -1 : 0;});
 	}
 }
