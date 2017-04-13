@@ -1,5 +1,6 @@
 #pragma once
 #include <cstdlib>
+#include <algorithm>
 
 namespace ED
 {
@@ -18,7 +19,11 @@ namespace ED
 		static void QuickSortRandom(Tipo *vet, Size start, Size end);
 		static void SelectSort(Tipo *vet, Size n);
 		static void BeadSort(Tipo * vet, Size length, Size Max);
-		static void qSort(Tipo * vet, Size Length);
+		static void qSort(Tipo * vet, Size length);
+		static void Sort(Tipo * vet, Size length)
+		{
+			sort(vet, vet + length, [](Tipo A, Tipo B) { return A < B;});
+		}
 
 	};
 

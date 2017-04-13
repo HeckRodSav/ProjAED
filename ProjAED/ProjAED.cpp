@@ -4,8 +4,9 @@
 #include <time.h>
 #include <cstdlib>
 #include <string>
-#include "Ordem.cpp"
 #include <cstdio>
+#include <algorithm>
+#include "Ordem.cpp"
 
 #include <vector>
 
@@ -61,8 +62,8 @@ int main()
 	for (ui i = 0; i < 50; i++) cout << teste[i] << ' ';
 	cout << endl;
 
-	//ED::Ordem<int, int>::BeadSort(teste, 10);
-	ED::Ordem<int, int>::qSort(teste, sizeofV(teste));
+
+	ED::Ordem<int, int>::Sort(teste, sizeofV(teste));
 
 
 	for (ui i = 0; i < 50; i++) cout << teste[i] << ' ';
