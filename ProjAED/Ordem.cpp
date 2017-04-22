@@ -1,6 +1,7 @@
 #pragma once
 #include <cstdlib>
 #include <algorithm>
+#include <iostream>
 
 namespace ED
 {
@@ -17,13 +18,11 @@ namespace ED
 		static void QuickSort(Tipo *vet, Size start, Size end);
 		static void QuickSortCentral(Tipo *vet, Size start, Size end);
 		static void QuickSortRandom(Tipo *vet, Size start, Size end);
-		static void SelectSort(Tipo *vet, Size n);
-		static void BeadSort(Tipo * vet, Size length, Size Max);
+		static void SelectSort(Tipo *vet, Size lenght);
+		static void RadixSort(Tipo* vet, Size length);
+		static void BeadSort(Tipo * vet, Size length, Tipo Max);
 		static void qSort(Tipo * vet, Size length);
-		static void Sort(Tipo * vet, Size length)
-		{
-			sort(vet, vet + length, [](Tipo A, Tipo B) { return A < B;});
-		}
+		static void Sort(Tipo * vet, Size length);
 
 	};
 
@@ -197,13 +196,13 @@ namespace ED
 		QuickSortRandom(vet, i + 1, end);
 	}
 
-	template<typename Tipo, typename Size> inline void Ordem<Tipo, Size>::SelectSort(Tipo * vet, Size n)
+	template<typename Tipo, typename Size> inline void Ordem<Tipo, Size>::SelectSort(Tipo * vet, Size length)
 	{
 		Tipo aux;
 		Size imenor, i, j;
-		for (i = 0; i < n - 1; i++) {
+		for (i = 0; i < length - 1; i++) {
 			imenor = i;
-			for (j = i + 1; j < n; j++)
+			for (j = i + 1; j < length; j++)
 				if (vet[j] < vet[imenor]) imenor = j;
 			aux = vet[i];
 			vet[i] = vet[imenor];
@@ -211,13 +210,40 @@ namespace ED
 		}
 	}
 
-	template<typename Tipo, typename Size> inline void Ordem<Tipo, Size>::BeadSort(Tipo * vet, Size length, Size Max)
+	template<typename Tipo, typename Size> inline void Ordem<Tipo, Size>::RadixSort(Tipo * vet, Size length) {
+		Size i, j;
+		Tipo* temp = new Tipo[length];
+
+		for (Size shift = sizeof(Tipo) * 8 - 1; shift > -1; --shift)
+		{
+			j = 0;
+
+			for (i = 0; i < length; ++i)
+			{
+				bool move = (vet[i] << shift) >= 0;
+
+				if (shift == 0 ? !move : move)
+					vet[i - j] = vet[i];
+				else
+					temp[j++] = vet[i];
+			}
+
+			for (i = 0; i < j; i++)
+			{
+				vet[(length - j) + i] = temp[i];
+			}
+		}	
+
+		delete temp;
+	}
+
+	template<typename Tipo, typename Size> inline void Ordem<Tipo, Size>::BeadSort(Tipo * vet, Size length, Tipo Max)
 	{
 		// initialize
 		Tipo *level_count = new Tipo[length + 1];
 		Tipo *rod_count = new Tipo[Max + 1];
 		for (Size i = 1; i <= length; i++) level_count[i] = 0;
-		for (Tipo i = 1; i <= Max; i++) rod_count[i] = 0;
+		for (Tipo i = 1; i < Max; i++) rod_count[i] = 0;
 		// sort
 		for (Size i = 0; i < length; i++)
 		{
@@ -226,7 +252,7 @@ namespace ED
 			}
 		}
 
-		//for (int i = 0; i <= length; i++) cout << level_count[i] << ' '; cout << endl;
+		//for (int i = 0; i <= length; i++) std::cout << level_count[i] << ' '; std::couc << endl;
 
 		for (Size i = 0; i < length; i++) vet[i] = level_count[length - i];
 		delete level_count;
@@ -235,6 +261,11 @@ namespace ED
 
 	template<typename Tipo, typename Size> inline void Ordem<Tipo, Size>::qSort(Tipo * vet, Size length)
 	{
-		qsort(vet, length, sizeof(vet[0]), [](const void *A, const void *B) {return *(Tipo*)A > *(Tipo*)B ? 1 : *(Tipo*)A < *(Tipo*)B ? -1 : 0;});
+		qsort(vet, length, sizeof(Tipo), [](const void *A, const void *B) {return *(Tipo*)A > *(Tipo*)B ? 1 : *(Tipo*)A < *(Tipo*)B ? -1 : 0;});
+	}
+
+	template<typename Tipo, typename Size> inline void Ordem<Tipo, Size>::Sort(Tipo * vet, Size length)
+	{
+		sort(vet, vet + length, [](Tipo A, Tipo B) { return A < B;});
 	}
 }
