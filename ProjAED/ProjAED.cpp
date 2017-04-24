@@ -6,6 +6,7 @@
 #include <string>
 #include <cstdio>
 #include <algorithm>
+#include <fstream>
 #include "Ordem.cpp"
 
 //#define DEBUG
@@ -22,12 +23,14 @@ typedef unsigned int ui;
 typedef long int li;
 typedef unsigned long int uli;
 
+fstream fout;
+
 ui seeed[] = { 4, 81, 151, 1601, 2307, 4207 };
-uli sizee[] = { 1000,30000,90000,270000,810000,243000,7290000,21870000,65610000 };
+uli sizee[] = { 10000, 30000, 90000, 270000, 810000, 2430000, 7290000, 21870000, 65610000 };
 //uli sizee[] = { 10, 30, 90, 270, 810, 2430, 729, 2187, 6561 };
 //uli sizee[] = { 5, 10, 50, 100, 500, 1000, 5000, 10000, 50000 };
 //uli sizee[] = { 50, 100, 150, 200, 250, 300, 350, 400, 450, 500 };
-string tipe_name[] = {
+string algorithm_name[] = {
 	"HeapSort",			//0
 	"QuickSort",		//1
 	"MergeSort",		//2
@@ -40,6 +43,8 @@ string tipe_name[] = {
 	"RadixSort",		//9
 	"BubbleSort",		//10
 	"BeadSort" };		//11
+
+string file_name = "results.txt";
 
 void pause()
 {
@@ -93,23 +98,32 @@ int main()
 #endif
 
 #else
+
 	double start = 0, end = 0;
 	ui *V = new ui[sizee[sizeofV(sizee)-1]];
 
+	fout.open(file_name, ios::app);
 	uniform_int_distribution<ui> seq(0,SIZEx);
 	mt19937 rnd;
 
-	for (ui i = 0; i < sizeofV(tipe_name); i++) //Select algorithm
+	for (ui i = 0; i < sizeofV(algorithm_name); i++) //Select algorithm
 	{
-		cout << setfill(' ') << setw(15) << left << tipe_name[i] << "  "; //Show name
-		for (ui k = 0; k < sizeofV(seeed); k++) cout << seeed[k] << '\t'; //Show index
+		cout << setfill(' ') << setw(15) << left << algorithm_name[i] << "  "; //Show name
+		fout << setfill(' ') << setw(15) << left << algorithm_name[i] << "  ";
+		for (ui k = 0; k < sizeofV(seeed); k++)
+		{
+			cout << seeed[k] << '\t'; //Show index
+			fout << seeed[k] << '\t';
+		}
 		cout << endl;
+		fout << endl;
 
 		for (ui j = 0; j < sizeofV(sizee); j++) //Select size of vector
 		{
 			for (uli l = 0; l < sizee[j]; l++) V[l] = 0; //Clean the vector in the used space
 
 			cout << "size: " << setfill(' ') << setw(9) << left << sizee[j] << ": "; //Show size
+			fout << "size: " << setfill(' ') << setw(9) << left << sizee[j] << ": "; //Show size
 
 			for (ui k = 0; k < sizeofV(seeed); k++) //Select current seed
 			{
@@ -135,12 +149,16 @@ int main()
 				}
 				end = clock();
 				cout << 1000.0 * (end - start) / (CLOCKS_PER_SEC) << '\t';
+				fout << 1000.0 * (end - start) / (CLOCKS_PER_SEC) << '\t';
 			}
 			cout << endl;
+			fout << endl;
 
 		}
 		cout << endl; //Break line after a algorithm
+		fout << endl;
 	}
+	fout.close();
 #endif
 	cout << '\a';
 	pause();
