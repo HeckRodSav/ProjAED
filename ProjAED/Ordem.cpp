@@ -104,7 +104,7 @@ namespace ED
 
 	template<typename Tipo, typename Size> inline void Ordem<Tipo, Size>::MergeSort(Tipo * vet, Size length)
 	{
-		Tipo *aux = new Tipo[length]; // Alocação do vetor auxiliar
+		Tipo *aux = new Tipo[length]; // Alocacao do vetor auxiliar
 		m_sort(vet, aux, 0, length - 1);
 		delete aux;
 	}
